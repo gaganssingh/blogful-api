@@ -9,7 +9,7 @@ describe("Articles Endpoints", function() {
 	before("make knex instance", () => {
 		db = knex({
 			client     : "pg",
-			connection : process.env.TEST_DB_URL
+			connection : process.env.TEST_DATABASE_URL
 		});
 		app.set("db", db);
 	});
@@ -52,7 +52,9 @@ describe("Articles Endpoints", function() {
 
 			beforeEach("insert malicious article", () => {
 				return db.into("blogful_users").insert(testUsers).then(() => {
-					return db.into("blogful_articles").insert([ maliciousArticle ]);
+					return db.into("blogful_articles").insert([
+						maliciousArticle
+					]);
 				});
 			});
 
@@ -98,7 +100,9 @@ describe("Articles Endpoints", function() {
 
 			beforeEach("insert malicious article", () => {
 				return db.into("blogful_users").insert(testUsers).then(() => {
-					return db.into("blogful_articles").insert([ maliciousArticle ]);
+					return db.into("blogful_articles").insert([
+						maliciousArticle
+					]);
 				});
 			});
 
@@ -141,7 +145,11 @@ describe("Articles Endpoints", function() {
 				.then(res => supertest(app).get(`/api/articles/${res.body.id}`).expect(res.body));
 		});
 
-		const requiredFields = [ "title", "style", "content" ];
+		const requiredFields = [
+			"title",
+			"style",
+			"content"
+		];
 
 		requiredFields.forEach(field => {
 			const newArticle = {
